@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="会员登陆"
+        android:text="会员登录"
         android:textColor="#1196EE"
         android:textSize="30sp" />
 
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="登陆"
+            android:text="登录"
             android:background="#1196EE"
             android:textSize="20sp" />
 
