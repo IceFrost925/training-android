@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:id="@+id/text"
+    android:paddingLeft="5dip"
+    android:paddingRight="5dip"
+    android:gravity="center"
+    android:textColor="#fff"
+    android:drawableRight="@mipmap/tianjia"
+    android:text="菜单"
+    android:paddingStart="10dp"
+    android:textSize="20dp"
+    android:singleLine="true"
+    android:background="#1269db"
+   >
+
+</CheckedTextView>
