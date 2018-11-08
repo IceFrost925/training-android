@@ -7,21 +7,21 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 import project.com.training.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShouYeFragment.OnFragmentInteractionListener} interface
+ * {@link BookDmFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  *
  */
-public class ShouYeFragment extends Fragment {
+public class BookDmFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ShouYeFragment() {
+    public BookDmFragment() {
         // Required empty public constructor
     }
 
@@ -29,9 +29,8 @@ public class ShouYeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_book_dm, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
