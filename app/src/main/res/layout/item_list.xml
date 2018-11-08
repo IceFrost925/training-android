@@ -4,17 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-    <CheckedTextView
+    <TextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/text"
-        android:background="#66b2ff"
-        android:paddingLeft="5dip"
-        android:paddingRight="5dip"
-        android:gravity="center"
-        android:paddingStart="10dp"
+        android:background="#00CC99"
+        android:padding="10dp"
+
         android:text="菜单项"
-        android:textSize="17dp"
+        android:textSize="25dp"
         android:textColor="#fff"
         android:drawableRight="@mipmap/tianjia"
         android:singleLine="true"

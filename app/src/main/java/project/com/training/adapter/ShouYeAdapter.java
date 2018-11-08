@@ -1,5 +1,4 @@
 package project.com.training.adapter;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 import java.util.Map;
+
+import project.com.training.R;
 
 public class ShouYeAdapter extends BaseAdapter {
     //数据
@@ -61,10 +62,10 @@ public class ShouYeAdapter extends BaseAdapter {
         if(convertView==null){
             content=new Content();
             //获得组件，实例化组件
-            //convertView=layoutInflater.inflate(R.layout.msglist, null);
-           // content.image=convertView.findViewById(R.id.image_photo);
-            //content.bookname=convertView.findViewById(R.id.name);
-           // content.price=convertView.findViewById(R.id.news);
+            convertView=layoutInflater.inflate(R.layout.shouye_item, null);
+           content.image=convertView.findViewById(R.id.image);
+            content.bookname=convertView.findViewById(R.id.bookname);
+            content.price=convertView.findViewById(R.id.price);
 
             convertView.setTag(content);
         }else{
@@ -72,8 +73,8 @@ public class ShouYeAdapter extends BaseAdapter {
         }
         //绑定数据
         content.image.setBackgroundResource((Integer)data.get(position).get("image"));
-        content.bookname.setText((String)data.get(position).get("title"));
-        content.price.setText((String)data.get(position).get("info"));
+        content.bookname.setText((String)data.get(position).get("bookname"));
+        content.price.setText((String)data.get(position).get("price"));
 
         return convertView;
     }

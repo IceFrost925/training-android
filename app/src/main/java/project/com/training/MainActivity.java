@@ -18,14 +18,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button loginKey = findViewById(R.id.btn_login);
-        userName = findViewById(R.id.ev_useName);
-        password = findViewById(R.id.ev_password);
+        userName = findViewById(R.id.userName);
+        password = findViewById(R.id.password);
 
-        Drawable drawable_user = getResources().getDrawable(R.drawable.ico_user);
+        Drawable drawable_user = getResources().getDrawable(R.mipmap.ico_user);
         drawable_user.setBounds(0, 0, 50, 50);
         userName.setCompoundDrawables(drawable_user, null, null, null);
 
-        Drawable drawable_password = getResources().getDrawable(R.drawable.ico_password);
+        Drawable drawable_password = getResources().getDrawable(R.mipmap.ico_password);
         drawable_password.setBounds(0, 0, 50, 50);
         password.setCompoundDrawables(drawable_password, null, null, null);
 
@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 String name= userName.getText().toString();
                 String password0= password.getText().toString();
                 if(name.equals("1602343108") && password0.equals("123456")){
-                    Intent instant = new Intent(MainActivity.this,Main2Activity.class);
-                    startActivity(instant);
+                    //Intent instant = new Intent(MainActivity.this,Main2Activity.class);
+                   // startActivity(instant);
                 }else{
                     Toast.makeText(MainActivity.this,"输入错误",Toast.LENGTH_SHORT).show();
                 }

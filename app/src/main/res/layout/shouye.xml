@@ -3,28 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--轮播图-->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_page"
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        >
 
-    </android.support.v4.view.ViewPager>
-    <!--轮播图-->
 
     <!--书的列表-->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
         android:text="推介商品"
         android:textSize="20dp"
         android:textColor="#000"
-        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_input"
+        android:layout_gravity="center"
+        android:gravity="center"
         />
     <ListView
         android:id="@+id/list_item"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

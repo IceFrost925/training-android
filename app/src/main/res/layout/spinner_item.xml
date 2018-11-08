@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheckedTextView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:id="@+id/text"
-    android:paddingLeft="5dip"
-    android:paddingRight="5dip"
-    android:gravity="center"
-    android:textColor="#fff"
-    android:drawableRight="@mipmap/tianjia"
-    android:text="菜单"
-    android:paddingStart="10dp"
-    android:textSize="20dp"
-    android:singleLine="true"
-    android:background="#1269db"
-   >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="12dp"
+        android:textColor="#fff"
+        android:drawableRight="@mipmap/caidan"
+        android:text="菜单"
 
-</CheckedTextView>
+        android:textSize="20dp"
+        android:singleLine="true"
+        android:background="#00B266"
+        >
+
+    </TextView>
+</LinearLayout>

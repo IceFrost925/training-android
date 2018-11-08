@@ -22,15 +22,21 @@
         android:background="#f0f0f5"
         >
         <TextView
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="尊敬的用户您好！"/>
+            android:text="尊敬的用户"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=",您好！"/>
 
         <TextView
             android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000"
+            android:layout_marginLeft="10dp"
             android:text="[登录]"/>
         <TextView
             android:id="@+id/register"
@@ -44,23 +50,17 @@
             android:layout_marginLeft="15dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/yh">
+            android:src="@drawable/user">
 
         </ImageView>
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:entries="@array/yonghu"
-            android:spinnerMode="dropdown"
 
-          >
-        </Spinner>
+
         <ImageView
             android:id="@+id/shouchang"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/sc">
+            android:src="@drawable/sc"
+            android:layout_marginLeft="20dp">
 
         </ImageView>
         <ImageView
@@ -85,52 +85,35 @@
 
     <!--中间图标-->
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp" />
-         <!--购物车spinner-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           android:orientation="horizontal"
-            android:gravity="center_horizontal">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/gwc"
-                />
-            <Spinner
-                android:id="@+id/spinner_gwc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                >
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:background="@drawable/beijing"/>
 
-            </Spinner>
-        </LinearLayout>
-
-         <!--购物车spinner-->
     <!--中间图标-->
 
 
     <!--菜单-->
     <Spinner
-
         android:id="@+id/spinner_caidan"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#1296db"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:popupBackground="#00b33c"
-        android:entries="@string/caidan"
-
         android:spinnerMode="dropdown"
+        android:background="@null"
         >
 
     </Spinner>
     <!--菜单-->
+        <!--轮播图-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_page"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            >
+
+        </android.support.v4.view.ViewPager>
+        <!--轮播图-->
+
         <!---->
    <FrameLayout
        android:id="@+id/frame_content"
@@ -138,9 +121,6 @@
        android:layout_marginBottom="10dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
-
-
-
 
    </FrameLayout>
 

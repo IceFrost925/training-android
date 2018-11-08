@@ -3,17 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_margin="15dp"
+    android:background="@drawable/bg_input"
+    android:padding="20dp">
 
     <TextView
-        android:id="@+id/title1"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:text="会员登录"
-        android:textColor="#1196EE"
+        android:textColor="#00B266"
         android:textSize="30sp" />
 
     <View
@@ -27,27 +30,31 @@
 
 
     <TextView
-        android:id="@+id/tv_1"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="如果你已经是本站会员，请直接登陆"
         android:textColor="#021420"
-        android:textSize="15sp" />
+        android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/ev_useName"
+        android:id="@+id/userName"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/ico_user"
-        android:hint="请输入用户名" />
+        android:drawableLeft="@mipmap/ico_user"
+        android:hint="请输入用户名"
+
+        android:textSize="20sp"
+        />
+
 
     <EditText
-        android:id="@+id/ev_password"
+        android:id="@+id/password"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:drawableLeft="@drawable/ico_password"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ico_password"
         android:hint="请输入密码"
         android:textSize="20sp" />
 
@@ -58,17 +65,18 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/savePasswordCB"
+            android:id="@+id/savePassword"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:text="记住我"></CheckBox>
 
         <TextView
+            android:id="@+id/forgetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginLeft="200dp"
+            android:layout_marginLeft="140dp"
             android:layout_toRightOf="@+id/savePasswordCB"
             android:text="忘记密码？"
             android:textSize="15sp" />
@@ -81,13 +89,14 @@
         android:orientation="horizontal">
 
         <Button
+
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:text="登录"
-            android:background="#1196EE"
+            android:background="#00B266"
             android:textSize="20sp" />
 
 
