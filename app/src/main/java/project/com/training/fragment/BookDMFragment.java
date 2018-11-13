@@ -16,11 +16,11 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import project.com.training.R;
-import project.com.training.adapter.KeXueAdapter;
+import project.com.training.adapter.BookDMAdapter;
 import project.com.training.adapter.ShouYeAdapter;
 
 
-public class KeXueFragment extends Fragment {
+public class BookDMFragment extends Fragment {
     private ListView listView;
 
 
@@ -29,12 +29,12 @@ public class KeXueFragment extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
 
-    public KeXueFragment() {
+    public BookDMFragment() {
         // Required empty public constructor
     }
 
-    public static KeXueFragment newInstance(String param1, String param2) {
-        KeXueFragment fragment = new KeXueFragment();
+    public static BookDMFragment newInstance(String param1, String param2) {
+        BookDMFragment fragment = new BookDMFragment();
         return fragment;
     }
 
@@ -46,10 +46,10 @@ public class KeXueFragment extends Fragment {
         return textView;
     }*/
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ke_xue, container, false);
+        View view = inflater.inflate(R.layout.fragment_book_dm, container, false);
         listView=view.findViewById(R.id.list_item);
         List<Map<String, Object>> list = getData();
-        listView.setAdapter(new KeXueAdapter(getActivity(), list));
+        listView.setAdapter(new BookDMAdapter(getActivity(), list));
         setListViewHeightBasedOnChildren(listView);
         unbinder = ButterKnife.bind(this, view);
         return view;

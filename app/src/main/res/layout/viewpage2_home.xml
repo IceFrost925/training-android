@@ -5,8 +5,9 @@
     android:orientation="horizontal">
     <ImageView
         android:layout_width="match_parent"
+
         android:layout_height="170dp"
-        android:src="@drawable/lunbo3"
+        android:src="@drawable/lunbo2"
         />
 
 </LinearLayout>

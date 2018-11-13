@@ -12,14 +12,14 @@ import java.util.Map;
 
 import project.com.training.R;
 
-public class ShouYeAdapter extends BaseAdapter {
+public class WenXueAdapter extends BaseAdapter {
     //数据
     private List<Map<String, Object>> data;
     //添加布局
     private LayoutInflater layoutInflater;
 
     private Context context;
-    public ShouYeAdapter(Context context,List<Map<String, Object>> data){
+    public WenXueAdapter(Context context, List<Map<String, Object>> data){
         this.context=context;
         this.data=data;
         this.layoutInflater=LayoutInflater.from(context);

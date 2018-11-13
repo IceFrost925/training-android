@@ -22,13 +22,16 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
-        android:background="#aa000000" />
+        android:background="#aa6a5d5d" />
 
     <ListView
         android:id="@+id/list_item"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
     </ListView>
     <!--书的列表-->

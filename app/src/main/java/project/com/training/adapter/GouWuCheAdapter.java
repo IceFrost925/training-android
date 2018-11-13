@@ -4,6 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,14 +14,14 @@ import java.util.Map;
 
 import project.com.training.R;
 
-public class ShouYeAdapter extends BaseAdapter {
+public class GouWuCheAdapter extends BaseAdapter {
     //数据
     private List<Map<String, Object>> data;
     //添加布局
     private LayoutInflater layoutInflater;
 
     private Context context;
-    public ShouYeAdapter(Context context,List<Map<String, Object>> data){
+    public GouWuCheAdapter(Context context, List<Map<String, Object>> data){
         this.context=context;
         this.data=data;
         this.layoutInflater=LayoutInflater.from(context);
@@ -32,7 +34,10 @@ public class ShouYeAdapter extends BaseAdapter {
         public ImageView picture;
         public TextView name;
         //public Button view;
+        public EditText num;//数量
+        public TextView jhi_number;//型号
         public TextView price;
+
 
     }
     /*
@@ -62,10 +67,13 @@ public class ShouYeAdapter extends BaseAdapter {
         if(convertView==null){
             content=new Content();
             //获得组件，实例化组件
-            convertView=layoutInflater.inflate(R.layout.shouye_item, null);
-           content.picture=convertView.findViewById(R.id.image);
-            content.name=convertView.findViewById(R.id.bookname);
+            convertView=layoutInflater.inflate(R.layout.gouwuche_item, null);
+           content.picture=convertView.findViewById(R.id.picture);
+            content.name=convertView.findViewById(R.id.name);
             content.price=convertView.findViewById(R.id.price);
+           content.num=convertView.findViewById(R.id.num);
+            content.jhi_number=convertView.findViewById(R.id.number);
+
 
             convertView.setTag(content);
         }else{
@@ -74,7 +82,34 @@ public class ShouYeAdapter extends BaseAdapter {
         //绑定数据
         content.picture.setBackgroundResource((Integer)data.get(position).get("picture"));
         content.name.setText((String)data.get(position).get("name"));
-        content.price.setText((String)data.get(position).get("price"));
+        content.price.setText(data.get(position).get("price").toString());
+        content.num.setText(data.get(position).get("num").toString());//editText
+        content.jhi_number.setText((String)data.get(position).get("jhi_number"));
+
+
+        TextView all=convertView.findViewById(R.id.all);
+        final EditText num=convertView.findViewById(R.id.num);
+        TextView price=convertView.findViewById(R.id.price);
+        all.setText(String.valueOf(Integer.parseInt(price.getText().toString())*Integer.parseInt(num.getText().toString())));
+        Button add_gw=convertView.findViewById(R.id.add);
+        Button del=convertView.findViewById(R.id.del);
+
+
+        add_gw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                num.setText(String.valueOf(Integer.parseInt(num.getText().toString())+1));
+            }
+        });
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Integer.parseInt(num.getText().toString())>0)
+                    num.setText(String.valueOf(Integer.parseInt(num.getText().toString())-1));
+
+            }
+        });
+
 
         return convertView;
     }

@@ -1,5 +1,6 @@
 package project.com.training.fragment;
 
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,45 +14,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import project.com.training.R;
-import project.com.training.adapter.KeXueAdapter;
+import project.com.training.adapter.GouWuCheAdapter;
 import project.com.training.adapter.ShouYeAdapter;
 
 
-public class KeXueFragment extends Fragment {
+public class GouwucheFragment extends Fragment {
+
     private ListView listView;
 
-
-
-    Unbinder unbinder;
-
-    //private OnFragmentInteractionListener mListener;
-
-    public KeXueFragment() {
+    public GouwucheFragment() {
         // Required empty public constructor
     }
 
-    public static KeXueFragment newInstance(String param1, String param2) {
-        KeXueFragment fragment = new KeXueFragment();
-        return fragment;
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+
+        }
     }
 
-    /*@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.hello_blank_fragment);
-        return textView;
-    }*/
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ke_xue, container, false);
-        listView=view.findViewById(R.id.list_item);
+
+        View view = inflater.inflate(R.layout.fragment_gou_wu_che, container, false);
         List<Map<String, Object>> list = getData();
-        listView.setAdapter(new KeXueAdapter(getActivity(), list));
+        listView = view.findViewById(R.id.gouwuche_item);
+        listView.setAdapter(new GouWuCheAdapter(getActivity(), list));
         setListViewHeightBasedOnChildren(listView);
-        unbinder = ButterKnife.bind(this, view);
         return view;
     }
     public void setListViewHeightBasedOnChildren(ListView listView) {
@@ -77,24 +72,25 @@ public class KeXueFragment extends Fragment {
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
     }
+
+
+
+
+
+
     public List<Map<String, Object>> getData(){
         List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
         for (int i = 0; i < 10; i++) {
             Map<String, Object> map=new HashMap<String, Object>();
             map.put("picture", R.drawable.book);
-            map.put("name", "书名："+i);
-            map.put("price", "价格：" +i);
-
+            map.put("name", "book"+i);
+            map.put("price", +i);
+            map.put("num",+i);
+            map.put("jhi_number","编号"+i);
             list.add(map);
         }
         return list;
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
 }
