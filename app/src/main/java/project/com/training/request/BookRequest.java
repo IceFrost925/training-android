@@ -1,26 +1,22 @@
 package project.com.training.request;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Log;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
+import project.com.training.model.User;
 
 public class BookRequest {
     private Context context;
@@ -31,8 +27,34 @@ public class BookRequest {
         //this.now = new Now();
         //this.list = new ArrayList<>();
     }
+    public User Login(String url, String userParames, String userParames2)throws JSONException {
+        OkHttpClient client = new OkHttpClient();//创建请求,Builder是辅助类，辅助进行网络请求的
+        FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+        formBody.addEncoded("username", userParames);
+        formBody.addEncoded("password", userParames2);
+        Request request = new Request.Builder().url(url).post(formBody.build()).build();//创建请求队列,将请求放进去
+        Call call = client.newCall(request);
 
-    public void getNow(String url, String cityParames) throws JSONException {
+        User user = new User();
+        try {
+            Response response = call.execute();
+            String result = response.body().string();
+            JSONObject jsonObject = new JSONObject(result);
+            Gson gson = new Gson();
+            String gg = jsonObject.getJSONObject("data").toString();
+            user = gson.fromJson(gg, User.class);
+            Log.d("jj",user.toString());
+            Log.d("S",gg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("SSS",user.toString());
+
+        return user;
+    }
+//
+    /*public void getNow(String url, String cityParames) throws JSONException {
         OkHttpClient client = new OkHttpClient();//创建请求,Builder是辅助类，辅助进行网络请求的
         //请求当天的天气情况
 
@@ -43,7 +65,7 @@ public class BookRequest {
         Log.d("SYS", formBody.toString());
         Call call = client.newCall(request);
 
-        //请求当天PM25
+        //请求当天PM2.5
         Request request2 = new Request.Builder().url("https://free-api.heweather.com/s6/air/now").post(formBody.build()).build();//创建请求队列,将请求放进去
         Call call2 = client.newCall(request2);
         try {

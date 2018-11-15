@@ -56,7 +56,9 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@mipmap/ico_password"
         android:hint="请输入密码"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:inputType="textPassword"
+        />
 
 
     <LinearLayout

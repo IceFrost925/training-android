@@ -43,6 +43,7 @@ import project.com.training.fragment.RegisterFragment;
 import project.com.training.fragment.ShouCangFragment;
 import project.com.training.fragment.ShouYeFragment;
 import project.com.training.fragment.WenXueFragment;
+import project.com.training.model.User;
 import project.com.training.request.BookRequest;
 
 
@@ -90,6 +91,8 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.shoucang)
     ImageView shoucang;
 
+    private User user;
+
 
     private SparseArray<Fragment> fragments;
 
@@ -107,12 +110,13 @@ public class HomeActivity extends AppCompatActivity {
 
 //轮播
 
-
+    public HomeActivity(){};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
         //initViewPage();
         // addImageView();
         init();
@@ -181,9 +185,11 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
+
         BookRequest bookRequest= new BookRequest(HomeActivity.this);
 
-        new Thread(runnable).start();
+
 
     }
 
@@ -195,6 +201,26 @@ public class HomeActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_content, fragment);
         transaction.commit();
     }
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle data = msg.getData();
+             user = (User) data.getSerializable("user");
+             if(user.getUsername().toString()==""){
+                 username.setText(user.getEmail().toString());
+             }else{
+                 username.setText(user.getUsername().toString());
+             }
+
+
+            //futuresList = (List<Futures>) data.getSerializable("futures");
+            //initHomeInfo();
+            //initViewPage();
+        }
+    };
+
 
 
 
@@ -426,33 +452,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
    }*/
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Bundle data = msg.getData();
-           // now = (Now) data.getSerializable("value");
-            //futuresList = (List<Futures>) data.getSerializable("futures");
-            //initHomeInfo();
-            //initViewPage();
-        }
-    };
 
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            // TODO: http request.
-            //Now now = weatherRequest.getNow("https://free-api.heweather.com/s6/weather", city_name);
-            //List<Futures> list =  weatherRequest.getFuuresWeather("https://free-api.heweather.com/s6/weather/forecast",city_name);
-            Message msg = new Message();
-            Bundle data = new Bundle();
-            //data.putSerializable("value", now);
-            // data.putSerializable("futures", (Serializable) list);
-            msg.setData(data);
-            handler.sendMessage(msg);
-        }
-    };
 
 
     @OnClick({R.id.login, R.id.register, R.id.yonghu, R.id.shoucang, R.id.gouwuche, R.id.fenxiang})
