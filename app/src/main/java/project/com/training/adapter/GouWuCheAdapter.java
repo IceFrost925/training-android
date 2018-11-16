@@ -90,9 +90,11 @@ public class GouWuCheAdapter extends BaseAdapter {
         TextView all=convertView.findViewById(R.id.all);
         final EditText num=convertView.findViewById(R.id.num);
         TextView price=convertView.findViewById(R.id.price);
-        all.setText(String.valueOf(Integer.parseInt(price.getText().toString())*Integer.parseInt(num.getText().toString())));
+        TextView sum=convertView.findViewById(R.id.sum);
         Button add_gw=convertView.findViewById(R.id.add);
         Button del=convertView.findViewById(R.id.del);
+
+        all.setText(String.valueOf(Integer.parseInt(price.getText().toString())*Integer.parseInt(num.getText().toString())));
 
 
         add_gw.setOnClickListener(new View.OnClickListener() {

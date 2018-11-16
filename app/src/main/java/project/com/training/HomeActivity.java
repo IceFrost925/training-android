@@ -25,9 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +36,7 @@ import project.com.training.fragment.BookDMFragment;
 import project.com.training.fragment.GouwucheFragment;
 import project.com.training.fragment.KeXueFragment;
 import project.com.training.fragment.LoginFragment;
+import project.com.training.fragment.OrderFragment;
 import project.com.training.fragment.RegisterFragment;
 import project.com.training.fragment.ShouCangFragment;
 import project.com.training.fragment.ShouYeFragment;
@@ -56,9 +54,6 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.yonghu)
     ImageView yonghu;
 
-
-    @BindView(R.id.fenxiang)
-    ImageView fenxiang;
 
     @BindView(R.id.spinner_caidan)
     Spinner spinnerCaidan;
@@ -90,6 +85,8 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayout lineLayoutDot;
     @BindView(R.id.shoucang)
     ImageView shoucang;
+    @BindView(R.id.order)
+    ImageView order;
 
     private User user;
 
@@ -110,7 +107,11 @@ public class HomeActivity extends AppCompatActivity {
 
 //轮播
 
-    public HomeActivity(){};
+    public HomeActivity() {
+    }
+
+    ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,9 +121,6 @@ public class HomeActivity extends AppCompatActivity {
         //initViewPage();
         // addImageView();
         init();
-
-
-
 
 
         //*************************菜单适配器设置****************************************
@@ -147,8 +145,9 @@ public class HomeActivity extends AppCompatActivity {
         fragments.put(R.id.register, new RegisterFragment());
         fragments.put(R.id.shoucang, new ShouCangFragment());
         fragments.put(R.id.gouwuche, new GouwucheFragment());
-        if(spinnerCaidan.getSelectedItem().toString()=="首页"){
-            fragments.put(Integer.parseInt(spinnerCaidan.getSelectedItem().toString()), new  ShouYeFragment());
+        fragments.put(R.id.order, new OrderFragment());
+        if (spinnerCaidan.getSelectedItem().toString() == "首页") {
+            fragments.put(Integer.parseInt(spinnerCaidan.getSelectedItem().toString()), new ShouYeFragment());
             //2.FragmentManager装载Fragment
             replaceFragment(fragments.get(Integer.parseInt(spinnerCaidan.getSelectedItem().toString())));
 
@@ -158,9 +157,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-               //if (position == 0) {
-                    //fragments.put((int) id, new ShouYeFragment());
-               // }
+                //if (position == 0) {
+                //fragments.put((int) id, new ShouYeFragment());
+                // }
                 if (position == 0) {
                     fragments.put((int) id, new ShouYeFragment());
                 }
@@ -187,8 +186,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        BookRequest bookRequest= new BookRequest(HomeActivity.this);
-
+        BookRequest bookRequest = new BookRequest(HomeActivity.this);
 
 
     }
@@ -201,18 +199,19 @@ public class HomeActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_content, fragment);
         transaction.commit();
     }
+
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle data = msg.getData();
-             user = (User) data.getSerializable("user");
-             if(user.getUsername().toString()==""){
-                 username.setText(user.getEmail().toString());
-             }else{
-                 username.setText(user.getUsername().toString());
-             }
+            user = (User) data.getSerializable("user");
+            if (user.getUsername().toString() == "") {
+                username.setText(user.getEmail().toString());
+            } else {
+                username.setText(user.getUsername().toString());
+            }
 
 
             //futuresList = (List<Futures>) data.getSerializable("futures");
@@ -220,8 +219,6 @@ public class HomeActivity extends AppCompatActivity {
             //initViewPage();
         }
     };
-
-
 
 
     /**
@@ -454,8 +451,7 @@ public class HomeActivity extends AppCompatActivity {
    }*/
 
 
-
-    @OnClick({R.id.login, R.id.register, R.id.yonghu, R.id.shoucang, R.id.gouwuche, R.id.fenxiang})
+    @OnClick({R.id.login, R.id.register, R.id.yonghu, R.id.shoucang, R.id.gouwuche, R.id.order})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
@@ -472,7 +468,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.gouwuche:
                 replaceFragment(fragments.get(R.id.gouwuche));
                 break;
-            case R.id.fenxiang:
+            case R.id.order:
+                replaceFragment(fragments.get(R.id.order));
+
                 break;
         }
     }

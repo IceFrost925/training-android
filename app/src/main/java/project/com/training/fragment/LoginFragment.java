@@ -119,6 +119,12 @@ public class LoginFragment extends Fragment {
         Log.d("gg","uuuuu");
         name = userName.getText().toString();
         pwd = password.getText().toString();
+        if(name==null){
+            Toast.makeText(mContext,"用户名不能为空！",Toast.LENGTH_SHORT).show();
+        }
+        if(pwd==null){
+            Toast.makeText(mContext,"密码不能为空！",Toast.LENGTH_SHORT).show();
+        }
         new Thread(runnable).start();
     }
 
