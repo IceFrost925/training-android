@@ -70,7 +70,7 @@
                     >
                         <Button
                             android:id="@+id/add"
-                            android:layout_width="20dp"
+                            android:layout_width="23dp"
                             android:layout_height="40dp"
                             android:background="#00B266"
                             android:textColor="#fff"
@@ -78,8 +78,8 @@
 
                             android:gravity="center"
                             android:text="+"/>
-                        <EditText android:id="@+id/num"
-                            android:layout_width="40dp"
+                        <TextView android:id="@+id/num"
+                            android:layout_width="34dp"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:background="#fff"
@@ -89,7 +89,7 @@
                             />
                         <Button
                             android:id="@+id/del"
-                            android:layout_width="20dp"
+                            android:layout_width="23dp"
                             android:layout_height="40dp"
                             android:background="#00B266"
                             android:textColor="#fff"

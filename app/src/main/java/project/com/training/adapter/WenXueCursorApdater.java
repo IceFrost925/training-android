@@ -12,9 +12,9 @@ import android.widget.TextView;
 import project.com.training.R;
 
 
-public class BookDMCursorApdater extends CursorAdapter {
+public class WenXueCursorApdater extends CursorAdapter {
 
-    public BookDMCursorApdater(Context context, Cursor c) {
+    public WenXueCursorApdater(Context context, Cursor c) {
         super(context, c, 0);
     }
 

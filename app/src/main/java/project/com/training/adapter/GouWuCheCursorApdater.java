@@ -1,5 +1,4 @@
 package project.com.training.adapter;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -7,31 +6,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import project.com.training.R;
-import project.com.training.dao.BooksDao;
-import project.com.training.dao.CollectDao;
-import project.com.training.model.Collect;
 
 
-public class ShouCangCursorApdater extends CursorAdapter implements View.OnClickListener {
-    private ImageView btn_gw,btn_del;
+public class GouWuCheCursorApdater extends CursorAdapter {
+//   private TextView all;
+//   private TextView sum;
+//   private TextView num;
+//   private TextView price;
+//   private TextView jhi_number;
+//   private TextView name;
+//   private ImageView picture;
 
-    public ShouCangCursorApdater(Context context, Cursor c) {
+   private LayoutInflater layoutInflater;
+    public GouWuCheCursorApdater(Context context, Cursor c) {
         super(context, c, 0);
     }
+    public final class Content{
 
+        public TextView num;
+        public TextView price;
+        private TextView jhi_number;
+        private TextView name;
+        //private ImageView picture;
+
+
+    }
+    Content content = new Content();
     // 加载ListView的每个子项item_student.xml
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        View view= LayoutInflater.from(context).inflate(R.layout.sc_item, viewGroup, false);
-        btn_gw=view.findViewById(R.id.add_gw);
-        btn_del=view.findViewById(R.id.del);
-        btn_gw.setOnClickListener(this);
-        btn_del.setOnClickListener(this);
+        View view= LayoutInflater.from(context).inflate(R.layout.gouwuche_item, viewGroup, false);
+
+
+
+
+
+
         return view;
     }
 
@@ -39,44 +55,53 @@ public class ShouCangCursorApdater extends CursorAdapter implements View.OnClick
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         // 1. 根据view获取item_student.xml中的每个控件
-        ImageView image = view.findViewById(R.id.image);
-        TextView bookname = view.findViewById(R.id.name);
-        TextView price = view.findViewById(R.id.price);
-        TextView kucun=view.findViewById(R.id.kucun);
-        TextView number=view.findViewById(R.id.number);
-
-        // 2. 给每个控件赋值，数据来源为cursor
-        //image.setImageResource(Integer.parseInt(cursor.getString(cursor.getColumnIndex("picture"))));
-        kucun.setText(cursor.getString(cursor.getColumnIndex("count")));
-        number.setText(cursor.getString(cursor.getColumnIndex("jhi_number")));
-        bookname.setText(cursor.getString(cursor.getColumnIndex("name")));
-        price.setText(cursor.getString(cursor.getColumnIndex("price")));
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_shopCar:
-
-                break;
-            case R.id.btn_recieve:
-             /*   CollectDao collectDao=new CollectDao();
-
-                BooksDao booksDao=new BooksDao(getActivity());
-                Cursor cursor=booksDao.findAllbooks();
-
-                Collect collect=new Collect();
-                collect.setBook_id(cursor.getLong(cursor.getColumnIndex("id")));
-                collect.setSuser_id(Long.valueOf(2));
-                if(collectDao.insert(collect)){
-                    Toast.makeText(getActivity(),"收藏成功！",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(),"收藏失败！",Toast.LENGTH_SHORT).show();
-                }*/
-
-
-                break;
+        Content content=null;
+        if(view==null) {
+            content = new Content();
+           // view=layoutInflater.inflate(R.layout.gouwuche_item, null);
+          //  content.picture = view.findViewById(R.id.picture);
+            content.name = view.findViewById(R.id.name);
+            content.price = view.findViewById(R.id.price);
+            content.num = view.findViewById(R.id.num);
+            content.jhi_number = view.findViewById(R.id.number);
+            view.setTag(content);
+        }else{
+            content=(Content) view.getTag();
         }
+
+        //content.jhi_number.setText(cursor.getString(cursor.getColumnIndex("jhi_number")));
+        content.name.setText(cursor.getString(cursor.getColumnIndex("name")));
+        content.price.setText(cursor.getString(cursor.getColumnIndex("price")));
+        content.num.setText(cursor.getString(cursor.getColumnIndex("number")));
+        content.jhi_number.setText(cursor.getString(cursor.getColumnIndex("jhi_number")));
+
+        final TextView all = view.findViewById(R.id.all);
+        final TextView num=view.findViewById(R.id.num);
+        final TextView price = view.findViewById(R.id.price);
+        TextView sum = view.findViewById(R.id.sum);
+        all.setText(String.valueOf(Integer.parseInt(price.getText().toString()) * Integer.parseInt(num.getText().toString())));
+
+        Button add = view.findViewById(R.id.add);
+        Button del = view.findViewById(R.id.del);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                num.setText(String.valueOf(Integer.parseInt(num.getText().toString()) + 1));
+                all.setText(String.valueOf(Integer.parseInt(price.getText().toString()) * Integer.parseInt(num.getText().toString())));
+            }
+        });
+        del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Integer.parseInt(num.getText().toString()) > 1) {
+                    num.setText(String.valueOf(Integer.parseInt(num.getText().toString()) - 1));
+                    all.setText(String.valueOf(Integer.parseInt(price.getText().toString()) * Integer.parseInt(num.getText().toString())));
+                }
+            }
+        });
+
+
+
+
     }
 }

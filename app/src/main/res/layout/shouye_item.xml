@@ -40,6 +40,24 @@
                     android:text="嫌疑人X的献身"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+            <TextView
+                android:id="@+id/book_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="id"
+                android:visibility="invisible"/>
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:numStars="5"
+                android:rating="4.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="100dp"
+                android:maxWidth="200dp"
+                android:layout_gravity="center">
+          </RatingBar>
+
+
 
                 <TextView
                     android:id="@+id/price"

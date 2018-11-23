@@ -5,10 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import project.com.training.model.Book;
-import project.com.training.model.User;
+
 import project.com.training.utils.DBHelper;
 
 
@@ -23,22 +26,112 @@ public class BooksDao {
 
 
     //根据书的种类查询
-    public List<Book> findbooksByType(String jhi_type) {
+    /*public List<Book> findbooksByType(String jhi_type) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String sql = "select * from books where jhi_type=?";
         List<Book> list= (List<Book>) db.rawQuery(sql, new String[]{jhi_type});
         db.close();
         return list;
+    }*/
+    //根据书的种类查询
+   /* public Cursor findbooksByType(String jhi_type) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String sql = "select id as _id ,picture,name,price,jhi_describe from books where jhi_type=?";
+        Cursor cursor= db.rawQuery(sql, new String[]{jhi_type});
+       // if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0){
+            //book.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        //}
+
+        //db.close();
+        return cursor;
+    }*/
+    public List findbooksByType(String jhi_type) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String sql = "select id as _id ,picture,name,price,count,jhi_describe,jhi_type from books where jhi_type=?";
+        Cursor cursor= db.rawQuery(sql, new String[]{jhi_type});
+        // if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0){
+        //book.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        //}
+        List list=new ArrayList();
+        while(cursor.moveToNext()){
+            HashMap<String,String> map=new HashMap<String,String>();
+            map.put("bookid",cursor.getString(0));
+            map.put("picture",cursor.getString(1));
+            map.put("name",cursor.getString(2));
+            map.put("price",cursor.getString(3));
+            map.put("count",cursor.getString(4));
+            map.put("jhi_describe",cursor.getString(5));
+            map.put("jhi_type",cursor.getString(6));
+
+            list.add(map);
+        }
+        return list;
+
+        //db.close();
+
     }
     //根据书的种类查询
-    public List<Book> findAllbooks() {
+    //根据书的种类查询
+    public Cursor findbooksById(int id) {
+        //Book book=null;
+        SQLiteDatabase db = helper.getWritableDatabase();
+        //String sql = "select * from books";
+        String sql="select id as _id,picture,name,jhi_type,price,jhi_describe from books where id="+id;
+        //Book book= (Book) db.rawQuery(sql, null);
+        Cursor cursor= db.rawQuery(sql, new String[]{
+                String.valueOf(id)
+        });
+        //if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0){
+        //book.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        // }
+        // db.close();
+        return cursor;
+    }
+    public Cursor findAllbooks() {
+        //Book book=null;
+        SQLiteDatabase db = helper.getWritableDatabase();
+        //String sql = "select * from books";
+        String sql="select id as _id,picture,name,jhi_type,price,jhi_describe from books";
+        //Book book= (Book) db.rawQuery(sql, null);
+        Cursor cursor= db.rawQuery(sql, null);
+        //if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0){
+            //book.setId(cursor.getInt(cursor.getColumnIndex("id")));
+      // }
+       // db.close();
+        return cursor;
+    }
+    public List findAllbooksList() {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        //String sql = "select * from books";
+        String sql="select id as _id,picture,name,jhi_type,price,count,jhi_describe from books";
+        //Book book= (Book) db.rawQuery(sql, null);
+        Cursor cursor= db.rawQuery(sql, null);
+        List list=new ArrayList();
+        while(cursor.moveToNext()){
+            HashMap<String,String> map=new HashMap<String,String>();
+            map.put("bookid",cursor.getString(0));
+            map.put("picture",cursor.getString(1));
+            map.put("name",cursor.getString(2));
+            map.put("jhi_type",cursor.getString(3));
+            map.put("price",cursor.getString(4));
+            map.put("count",cursor.getString(5));
+            map.put("jhi_describe",cursor.getString(6));
+
+            list.add(map);
+        }
+        return list;
+    }
+    /*public List<Book> findAllbooks() {
         SQLiteDatabase db = helper.getWritableDatabase();
         String sql = "select * from books";
         //Book book= (Book) db.rawQuery(sql, null);
         List<Book> list= (List<Book>) db.rawQuery(sql, null);
         db.close();
         return list;
-    }
+    }*/
 
     /*public void deleteBySQL(int id) {
         String sql = "delete from student where _id=?";
@@ -49,12 +142,16 @@ public class BooksDao {
         db.close();
     }*/
     //根据书的名字查询
-    public Book findbooksByName(String name) {
+    public Cursor findbooksByName(String name) {
+        Book book=null;
         SQLiteDatabase db = helper.getWritableDatabase();
-        String sql = "select * from books where name=?";
-        Book book= (Book) db.rawQuery(sql, new String[]{name});
-        db.close();
-        return book;
+        String sql = "select id as _id,picture,jhi_type,price,jhi_describe from books where name=?";
+        Cursor cursor=  db.rawQuery(sql, new String[]{name});
+        if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0){
+            book.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        }
+       // db.close();
+        return cursor;
     }
 
 }

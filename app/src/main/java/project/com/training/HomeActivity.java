@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import project.com.training.adapter.ViewPagerAdapter;
+import project.com.training.dao.UserDao;
 import project.com.training.fragment.BookDMFragment;
 import project.com.training.fragment.GouwucheFragment;
 import project.com.training.fragment.KeXueFragment;
@@ -45,7 +47,7 @@ import project.com.training.model.User;
 import project.com.training.request.BookRequest;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements LoginFragment.MyListener {
 
     @BindView(R.id.login)
     TextView login;
@@ -88,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.order)
     ImageView order;
 
-    private User user;
+
 
 
     private SparseArray<Fragment> fragments;
@@ -110,13 +112,19 @@ public class HomeActivity extends AppCompatActivity {
     public HomeActivity() {
     }
 
-    ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.frame_content, new LoginFragment());
+        transaction.commit();
+
 
         //initViewPage();
         // addImageView();
@@ -136,6 +144,8 @@ public class HomeActivity extends AppCompatActivity {
             myAdapter.add(level[i]);
         }
 
+
+        UserDao userDao=new UserDao(HomeActivity.this);
         //为Spinner添加适配器
         spinnerCaidan.setAdapter(myAdapter);
 
@@ -156,6 +166,7 @@ public class HomeActivity extends AppCompatActivity {
         spinnerCaidan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
 
                 //if (position == 0) {
                 //fragments.put((int) id, new ShouYeFragment());
@@ -200,25 +211,22 @@ public class HomeActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    @SuppressLint("HandlerLeak")
+   /* @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle data = msg.getData();
-            user = (User) data.getSerializable("user");
-            if (user.getUsername().toString() == "") {
-                username.setText(user.getEmail().toString());
-            } else {
-                username.setText(user.getUsername().toString());
-            }
+            User user = (User) data.getSerializable("user");
+            username.setText(user.getUsername().toString());
+
 
 
             //futuresList = (List<Futures>) data.getSerializable("futures");
             //initHomeInfo();
             //initViewPage();
         }
-    };
+    };*/
 
 
     /**
@@ -253,6 +261,17 @@ public class HomeActivity extends AppCompatActivity {
 
         mDots = addDots(lineLayoutDot, fromResToDrawable(this, R.drawable.ic_dot_normal), mImageList.size());//其中fromResToDrawable()方法是我自定义的，目的是将资源文件转成Drawable
 
+
+    }
+
+    @Override
+    public void sendContent(String info) {
+
+        if (info!=null && !"".equals(info)) {
+            username.setText(info);
+        }else {
+            Toast.makeText(HomeActivity.this, "该用户不存在，请前去注册！", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

@@ -17,25 +17,41 @@ import project.com.training.HomeActivity;
 import project.com.training.R;
 import project.com.training.fragment.ShouYeFragment;
 
-public class ShouCangAdapter extends BaseAdapter {
+public class ShouCangAdapter extends BaseAdapter implements View.OnClickListener{
     //数据
-    private List<Map<String, Object>> data;
+    private List<Map<String, String>> data;
     //添加布局
     private LayoutInflater layoutInflater;
-
+    private MyClickListener mListener;//所有listview的item共用同一个
     private Context context;
 
-    public ShouCangAdapter(Context context, List<Map<String, Object>> data){
+    public ShouCangAdapter(Context context, List<Map<String, String>> data){
         this.context=context;
         this.data=data;
         this.layoutInflater=LayoutInflater.from(context);
     }
+    public ShouCangAdapter(Context context,List<Map<String, String>> data,MyClickListener listener){
+        this.context=context;
+        this.data=data;
+        this.layoutInflater=LayoutInflater.from(context);
+        this.mListener=listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        mListener.clickListener(v);
+    }
+    //自定义接口，用于回调按钮点击事件到Activity
+    public interface MyClickListener{
+        public void clickListener(View v);
+    }
+
     /**
      * 组件集合，对应list.xml中的控件
      * @author Administrator
      */
     public final class Content{
-        public ImageView picture;
+        public ImageView picture,add_gw,del;
         public TextView name;
         //public Button view;
         public TextView count;//库存
@@ -78,22 +94,9 @@ public class ShouCangAdapter extends BaseAdapter {
             content.price=convertView.findViewById(R.id.price);
             content.count=convertView.findViewById(R.id.kucun);
             content.jhi_number=convertView.findViewById(R.id.number);
+            content.add_gw=convertView.findViewById(R.id.add_gw);
+            content.del=convertView.findViewById(R.id.del);
 
-            Button add_gw=(Button)convertView.findViewById(R.id.add_gw);
-            Button del=(Button)convertView.findViewById(R.id.del);
-
-            add_gw.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context,"已加入购物车", Toast.LENGTH_SHORT).show();
-                }
-            });
-            del.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context,"已移除", Toast.LENGTH_SHORT).show();
-                }
-            });
 
 
 
@@ -103,11 +106,19 @@ public class ShouCangAdapter extends BaseAdapter {
             content=(Content) convertView.getTag();
         }
         //绑定数据
-        content.picture.setBackgroundResource((int)data.get(position).get("picture"));
+//        content.picture.setBackgroundResource(Integer.parseInt(data.get(position).get("picture")));
         content.name.setText((String)data.get(position).get("name"));
         content.price.setText((String)data.get(position).get("price"));
         content.jhi_number.setText((String) data.get(position).get("jhi_number"));
         content.count.setText((String) data.get(position).get("count"));
+
+        content.add_gw.setOnClickListener(this);
+        content.add_gw.setTag(position);
+
+        content.del.setOnClickListener(this);
+        content.del.setTag(position);
+
+
         return convertView;
     }
 

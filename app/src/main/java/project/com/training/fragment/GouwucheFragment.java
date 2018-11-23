@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +23,11 @@ import project.com.training.adapter.ShouCangCursorApdater;
 import project.com.training.adapter.ShouYeAdapter;
 import project.com.training.dao.CollectDao;
 import project.com.training.dao.ShoppingDao;
+import project.com.training.model.Shopping;
 import project.com.training.model.User;
 
 
-public class GouwucheFragment extends Fragment {
+public class GouwucheFragment extends Fragment implements GouWuCheAdapter.MyClickListener {
 
     private ListView listView;
 
@@ -33,7 +35,7 @@ public class GouwucheFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public User setUser(Long user_id) {
+    public User setUser(int user_id) {
         User user = new User();
         user.setId(user_id);
         return user;
@@ -55,35 +57,29 @@ public class GouwucheFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_gou_wu_che, container, false);
         //List<Map<String, Object>> list = getData();
-        List list=getData();
+      //  List list=getData();
         listView = view.findViewById(R.id.gouwuche_item);
         ShoppingDao shoppingDao = new ShoppingDao(getActivity());
-        Cursor cursor = shoppingDao.findMyGouWuChe();
-        if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
-            //adapter = new StudentCursorApdater(this, cursor);
-           /* GouWuCheSimpleCursorAdapter gouWuCheSimpleCursorAdapter=new GouWuCheSimpleCursorAdapter(
-                    this,
-                    R.id.gouwuche_item,
-                    cursor,
-                    new String[]{
-                            cursor.getString(cursor.getColumnIndex("name")),
-                                    cursor.getString(cursor.getColumnIndex("jhi_number")),
-                                            cursor.getString(cursor.getColumnIndex("price")),
-                                                    cursor.getString(cursor.getColumnIndex("num"))},
-                    new int[]{
-                            R.id.name,R.id.number,R.id.price,R.id.num
-                    });*/
+        //Cursor cursor = shoppingDao.findMyGouWuChe();
+        List<Map<String,String>> list=shoppingDao.findMyGouWuCheList();
+        if (list != null) {
+            Log.d("list", String.valueOf(list));
 
-            GouWuCheCursorApdater gouWuCheCursorApdater = new GouWuCheCursorApdater(getActivity(), cursor);
-           listView.setAdapter(gouWuCheCursorApdater);
-            Log.d("cc", cursor.toString());
+
+            //GouWuCheCursorApdater gouWuCheCursorApdater = new GouWuCheCursorApdater(getActivity(), cursor);
+          // listView.setAdapter(gouWuCheCursorApdater);
+            GouWuCheAdapter gouWuCheAdapter=new GouWuCheAdapter(getActivity(), list,GouwucheFragment.this);
+            listView.setAdapter(gouWuCheAdapter);
+
         }
-        // listView.setAdapter(new GouWuCheAdapter(getActivity(), list));
-        setListViewHeightBasedOnChildren(listView);
+
+
+
         return view;
     }
 
-    public void setListViewHeightBasedOnChildren(ListView listView) {
+
+        public void setListViewHeightBasedOnChildren(ListView listView) {
         // 获取ListView对应的Adapter
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
@@ -105,6 +101,37 @@ public class GouwucheFragment extends Fragment {
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
+    }
+
+    @Override
+    public void clickListener(View v) {
+        Shopping shopping = new Shopping();
+        ShoppingDao shoppingDao = new ShoppingDao(getActivity());
+        List<Map<String,String>> list=shoppingDao.findMyGouWuCheList();
+        switch(v.getId()){
+            case R.id.add:
+                Log.d("click","llllllllllllllllllllll");
+                shopping.setNumber(String.valueOf(Integer.parseInt(list.get((Integer) v.getTag()).get("number"))+1));
+                //shopping.setNumber(String.valueOf(Integer.parseInt(list1.get((Integer) v.getTag()).get("number"))+1));
+                shopping.setBook_id_id(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid")));
+                shoppingDao.updateMyShopping(shopping);
+
+                break;
+            case R.id.del:
+                Log.d("click","llllllllllllllllllllll");
+                if(Integer.parseInt(list.get((Integer) v.getTag()).get("number"))>1){
+                    shopping.setNumber(String.valueOf(Integer.parseInt(list.get((Integer) v.getTag()).get("number"))-1));
+                    //shopping.setNumber(String.valueOf(Integer.parseInt(list1.get((Integer) v.getTag()).get("number"))+1));
+                    shopping.setBook_id_id(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid")));
+                    shoppingDao.updateMyShopping(shopping);
+                }else{
+                    shoppingDao.delete(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid")));
+                }
+
+
+                break;
+        }
+
     }
 
 

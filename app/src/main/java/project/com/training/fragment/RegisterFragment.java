@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import project.com.training.R;
+import project.com.training.dao.UserDao;
+import project.com.training.model.User;
 
 
 public class RegisterFragment extends Fragment {
@@ -67,5 +70,31 @@ public class RegisterFragment extends Fragment {
         String name=edRe1.getText().toString();
         String psd=edRe2.getText().toString();
         String conpsd=edRe3.getText().toString();
+        User user=new User();
+        user.setEmail(email);
+        user.setPasswd(psd);
+        user.setUsername(name);
+        UserDao userDao=new UserDao(getActivity());
+
+        if(!psd.equals(conpsd)){
+            Toast.makeText(getActivity(),"密码输入不一致！",Toast.LENGTH_SHORT).show();
+
+        }else{
+            if(userDao.ifUserExist(email)){
+                Toast.makeText(getActivity(),"该邮箱已经被注册了！",Toast.LENGTH_SHORT).show();
+
+            }else{
+
+                if(!userDao.insert(user)){
+                    Toast.makeText(getActivity(),"注册失败！",Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(getActivity(),"注册成功！",Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        }
+
     }
 }

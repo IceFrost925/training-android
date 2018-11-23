@@ -3,7 +3,8 @@ package project.com.training.model;
 import java.io.Serializable;
 
 public class User implements Serializable{
-    private Long id;
+
+    private int id;
     private String username;
     private String image;
     private String email;
@@ -13,7 +14,7 @@ public class User implements Serializable{
     private String extra1;
     private String extra2;
 
-    public User(Long id, String username, String image, String email, String passwd, String tell, Integer integral, String extra1, String extra2) {
+    public User(int id, String username, String image, String email, String passwd, String tell, Integer integral, String extra1, String extra2) {
         this.id = id;
         this.username = username;
         this.image = image;
@@ -40,11 +41,11 @@ public class User implements Serializable{
                 '}';
     }
 
-    public Long getId() {
+
+    public int getId() {
         return id;
     }
-
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

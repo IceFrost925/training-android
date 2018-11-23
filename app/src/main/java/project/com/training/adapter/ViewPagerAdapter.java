@@ -49,7 +49,9 @@ public class ViewPagerAdapter extends PagerAdapter {
         // 把position对应位置的ImageView添加到ViewPager中
 
          if(images.size()!=0) {
+
              ImageView iv = images.get(position % images.size());
+
              viewPager.addView(iv);
              // 把当前添加ImageView返回回去.
              return iv;

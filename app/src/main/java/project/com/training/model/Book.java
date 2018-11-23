@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
 
-    private Long id;
+    private int id;
     private String picture;
     private String name;
     private String type;
@@ -34,11 +34,11 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

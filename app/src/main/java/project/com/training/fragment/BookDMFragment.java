@@ -1,12 +1,17 @@
 package project.com.training.fragment;
 
 import android.app.Fragment;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +21,16 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import project.com.training.R;
-import project.com.training.adapter.BookDMAdapter;
 import project.com.training.adapter.ShouYeAdapter;
+import project.com.training.adapter.ShouYeCursorApdater;
+import project.com.training.dao.BooksDao;
+import project.com.training.dao.CollectDao;
+import project.com.training.dao.ShoppingDao;
+import project.com.training.model.Collect;
+import project.com.training.model.Shopping;
 
 
-public class BookDMFragment extends Fragment {
+public class BookDMFragment extends Fragment implements ShouYeAdapter.MyClickListener {
     private ListView listView;
 
 
@@ -45,11 +55,28 @@ public class BookDMFragment extends Fragment {
         textView.setText(R.string.hello_blank_fragment);
         return textView;
     }*/
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_dm, container, false);
         listView=view.findViewById(R.id.list_item);
-        List<Map<String, Object>> list = getData();
-        listView.setAdapter(new BookDMAdapter(getActivity(), list));
+        //List<Map<String, Object>> list = getData();
+        //listView.setAdapter(new BookDMAdapter(getActivity(), list));
+        BooksDao booksDao=new BooksDao(getActivity());
+        List<Map<String,String>> list=booksDao.findbooksByType("动漫");
+        //LayoutInflater layoutInflater = getLayoutInflater();
+        if(list!=null){
+            //listView.setAdapter(new ShouYeAdapter(view.getContext(),layoutInflater, list));
+            listView.setAdapter(new ShouYeAdapter(getActivity(), list,BookDMFragment.this));
+        }
+
+        /*BooksDao booksDao=new BooksDao(getActivity());
+        Cursor cursor=booksDao.findbooksByType("动漫");
+        if(cursor != null && cursor.moveToFirst() && cursor.getCount() > 0){
+            //adapter = new StudentCursorApdater(this, cursor);
+            ShouYeCursorApdater shouYeCursorApdater=new ShouYeCursorApdater(getActivity(),cursor);
+            listView.setAdapter(shouYeCursorApdater);
+        }*/
+
         setListViewHeightBasedOnChildren(listView);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -77,7 +104,7 @@ public class BookDMFragment extends Fragment {
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
     }
-    public List<Map<String, Object>> getData(){
+    /*public List<Map<String, Object>> getData(){
         List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
         for (int i = 0; i < 10; i++) {
             Map<String, Object> map=new HashMap<String, Object>();
@@ -88,7 +115,7 @@ public class BookDMFragment extends Fragment {
             list.add(map);
         }
         return list;
-    }
+    }*/
 
 
     @Override
@@ -96,5 +123,58 @@ public class BookDMFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+    @Override
+    public void clickListener(View v) {
+        BooksDao booksDao=new BooksDao(getActivity());
+        List<Map<String,String>> list=booksDao.findAllbooksList();
+        switch (v.getId()){
+            case R.id.btn_shopCar:
+                Shopping shopping = new Shopping();
+                ShoppingDao shoppingDao = new ShoppingDao(getActivity());
+                List<Map<String,String>> list1=shoppingDao.findMyGouWuCheList();
+
+                if(shoppingDao.ifShoppingExist(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid")))){
+                    shopping.setNumber(String.valueOf(Integer.parseInt(list1.get((Integer) v.getTag()).get("number"))+1));
+                    //shopping.setNumber(String.valueOf(Integer.parseInt(list1.get((Integer) v.getTag()).get("number"))+1));
+                    shopping.setBook_id_id(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid")));
+                    shoppingDao.updateMyShopping(shopping);
+                    Toast.makeText(getActivity(),"该物品已在购物车!",Toast.LENGTH_SHORT).show();
+                }else{
+                    shopping.setBook_id_id(Integer.parseInt(list.get((Integer)v.getTag()).get("bookid")));
+                    shopping.setSuser_id(2);
+                    shopping.setNumber("1");
+
+                    if(shoppingDao.insert(shopping)){
+                        // shoppingDao.updateMyShopping(shopping);
+                        Toast.makeText(getActivity(),"加入购物车成功！",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getActivity(),"加入购物车失败！",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+
+
+
+                break;
+            case R.id.btn_recieve:
+
+                Collect collect=new Collect();
+                CollectDao collectDao=new CollectDao(getActivity());
+                Log.d("hhhhhhhhhh", String.valueOf(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid"))));
+                if(collectDao.ifCollectExist(Integer.parseInt(list.get((Integer) v.getTag()).get("bookid")))){
+                    Toast.makeText(getActivity(),"该物品您已收藏!",Toast.LENGTH_SHORT).show();
+                }else{
+                    collect.setBook_id(Integer.parseInt(list.get((Integer)v.getTag()).get("bookid")));
+                    collect.setSuser_id(2);
+                    collectDao.insert(collect);
+                    Toast.makeText(getActivity(),"收藏成功!",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+
+    }
+
 
 }
