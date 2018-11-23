@@ -1,8 +1,8 @@
 package project.com.training.fragment;
-
-
 import android.app.Fragment;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,13 @@ import java.util.Map;
 
 import project.com.training.R;
 import project.com.training.adapter.GouWuCheAdapter;
+import project.com.training.adapter.GouWuCheCursorApdater;
+
+import project.com.training.adapter.ShouCangCursorApdater;
 import project.com.training.adapter.ShouYeAdapter;
+import project.com.training.dao.CollectDao;
+import project.com.training.dao.ShoppingDao;
+import project.com.training.model.User;
 
 
 public class GouwucheFragment extends Fragment {
@@ -27,7 +33,12 @@ public class GouwucheFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public User setUser(Long user_id) {
+        User user = new User();
+        user.setId(user_id);
+        return user;
 
+    }
 
 
     @Override
@@ -43,12 +54,35 @@ public class GouwucheFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_gou_wu_che, container, false);
-        List<Map<String, Object>> list = getData();
+        //List<Map<String, Object>> list = getData();
+        List list=getData();
         listView = view.findViewById(R.id.gouwuche_item);
-        listView.setAdapter(new GouWuCheAdapter(getActivity(), list));
+        ShoppingDao shoppingDao = new ShoppingDao(getActivity());
+        Cursor cursor = shoppingDao.findMyGouWuChe();
+        if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
+            //adapter = new StudentCursorApdater(this, cursor);
+           /* GouWuCheSimpleCursorAdapter gouWuCheSimpleCursorAdapter=new GouWuCheSimpleCursorAdapter(
+                    this,
+                    R.id.gouwuche_item,
+                    cursor,
+                    new String[]{
+                            cursor.getString(cursor.getColumnIndex("name")),
+                                    cursor.getString(cursor.getColumnIndex("jhi_number")),
+                                            cursor.getString(cursor.getColumnIndex("price")),
+                                                    cursor.getString(cursor.getColumnIndex("num"))},
+                    new int[]{
+                            R.id.name,R.id.number,R.id.price,R.id.num
+                    });*/
+
+            GouWuCheCursorApdater gouWuCheCursorApdater = new GouWuCheCursorApdater(getActivity(), cursor);
+           listView.setAdapter(gouWuCheCursorApdater);
+            Log.d("cc", cursor.toString());
+        }
+        // listView.setAdapter(new GouWuCheAdapter(getActivity(), list));
         setListViewHeightBasedOnChildren(listView);
         return view;
     }
+
     public void setListViewHeightBasedOnChildren(ListView listView) {
         // 获取ListView对应的Adapter
         ListAdapter listAdapter = listView.getAdapter();
@@ -67,7 +101,7 @@ public class GouwucheFragment extends Fragment {
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
@@ -78,7 +112,7 @@ public class GouwucheFragment extends Fragment {
 
 
 
-    public List<Map<String, Object>> getData(){
+   /* public List<Map<String, Object>> getData(){
         List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
         for (int i = 0; i < 10; i++) {
             Map<String, Object> map=new HashMap<String, Object>();
@@ -90,7 +124,8 @@ public class GouwucheFragment extends Fragment {
             list.add(map);
         }
         return list;
-    }
-
-
+//    }*/
 }
+
+
+
